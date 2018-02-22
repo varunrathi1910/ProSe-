@@ -1,100 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
-<body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<div class="container">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid text-center bg-info text-white">
+        <h1 class = "display 1">Finally a jumbotron</h1>
+        <h4 class="display 4"> Good job</h1>
+      </div>
+      <div class="container">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <p  style="color:white;">This text is to put the content in the middle of the carousel</p>
+              <a class="nav-item nav-link" href="#">DMBI</a>
+              <a class="nav-item nav-link" href="#">SWS</a>
+              <a class="nav-item nav-link" href="#">AIT</a>
+              <a class="nav-item nav-link" href="#">DS</a>
+              <a class="nav-item nav-link" href="#">SE</a>
+            </div>
+            <div class="carousel-item">
+              <p  style="color:white;">This text is to put the content in the middle of the carousel</p>
+              <a class="nav-item nav-link" href="#">DMBI</a>
+              <a class="nav-item nav-link" href="#">SWS</a>
+              <a class="nav-item nav-link" href="#">AIT</a>
+              <a class="nav-item nav-link" href="#">DS</a>
+              <a class="nav-item nav-link" href="#">SE</a>
+            </div>
+            <div class="carousel-item">
+              <p  style="color:white;">This text is to put the content in the middle of the carousel</p>
+              <a class="nav-item nav-link" href="#">DMBI</a>
+              <a class="nav-item nav-link" href="#">SWS</a>
+              <a class="nav-item nav-link" href="#">AIT</a>
+              <a class="nav-item nav-link" href="#">DS</a>
+              <a class="nav-item nav-link" href="#">SE</a>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="left:0;right:auto;">
+            <span class="carousel-control-prev-icon bg-info"style="border-radius:50%;" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next"  href="#carouselExampleControls" role="button" data-slide="next" style="right:0;left:auto;">
+            <span class="carousel-control-next-icon bg-info "style="border-radius:50%;" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+      </div>
 
-<!--
-<div class="page-header">
-    <h1>Responsive Image Tiles <small>A template, demonstrating a set of responsive image tiles</small></h1>
-</div>
--->
-
-<!-- Responsive Image Tiles - START -->
-
-
-<div class="container-fluid">
-<!--
-    <div class="row text-center">
-        <h3 class="headermessage">Responsive Image Tiles</h3>
     </div>
--->
-    <div class="row">
-        <div class="image-block col-sm-4" style="background:url(Capture.png) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>
+
+
+
+
+    <!--  cards-->
+    <div class="row justify-content-md-center">
+      <div class="col-lg-3">
+        <div class="card" >
+          <img class="card-img-top" src="..." alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+          <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+          </ul>
+          <div class="card-block">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
         </div>
-        <div class="image-block col-sm-4" style="background: url(https://www.businessnewsdaily.com/10306-what-is-machine-learning.html) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city3.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city5.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city6.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city7.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>            
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city7.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>            
-        </div>
-        <div class="image-block col-sm-4" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city7.jpg) no-repeat center top;background-size:cover;">
-            <p> Image Info </p>            
-        </div>
-        
+
+      </div>
     </div>
-</div>
-
-<style>
-.headermessage {
-  margin: 19px;
-  color: black;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-}
-.image-block {
-    border: 3px solid white ;
-    background-color: black;
-    padding: 0px;    
-    margin: 0px;
-    height:200px;
-    text-align: center;
-    vertical-align: bottom;
-}
-.image-block > p {
-    width: 100%;
-    height: 100%;
-    font-weight: normal;
-    font-size: 19px;
-    padding-top: 150px;
-    background-color: rgba(3,3,3,0.0);
-    color: rgba(6,6,6,0.0);
-}
-.image-block:hover > p {
-    background-color: rgba(3,3,3,0.5);    
-    color: white;    
-}
-</style>
-<!-- Responsive Image Tiles - END -->
-
-</div>
-
-
-</body>
+    <h2 class="display-4 text-center py-5">This is your footer</h2>
+    <nav class="nav justify-content-md-center nav-pills">
+      <a class="nav-link active mx-4" href="#a1" data-toggle="tab">Link1</a>
+      <a class="nav-link  mx-4" href="#a2" data-toggle="tab">Link2</a>
+      <a class="nav-link  mx-4" href="#a3" data-toggle="tab">Link3</a>
+    </nav>
+    <!-- <div class="tab-content py-5">
+      <div class="tab-pane active" id="a1">
+        <h1><span data-toggle="tooltip" title="This is a tooltip" class="text-info">This is for a tooltip</span></h1>
+        <p>1-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="tab-pane fade" id="a2">
+        <p>2-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="tab-pane fade" id="a3">
+        <p>3-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div> -->
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script>
+      $(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+  </body>
 </html>
