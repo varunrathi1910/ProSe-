@@ -23,7 +23,7 @@
                 <div class="navbar-nav">
                   <!-- <a class="navbar-brand" href="header-nightsky.html" style="max-width:10%;border-radius:50%;"><img src="logo1.jpg" class="img-fluid"></a> -->
                   <a class="nav-item nav-link " href="header-nightsky.html">Home</a>
-                  <a class="nav-item nav-link " href="#">About Us</a>
+                  <a class="nav-item nav-link " href="AboutUs.html">About Us</a>
                 </div>
               </div>
               <div class="btn-group" style="right:0;left:auto;">
@@ -32,7 +32,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-menu-toggle-md" style="right:0;left:auto;" >
                   <!-- <a class="dropdown-item" href="#">Action</a> -->
-                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="addProject" onclick="viewAdd(this)">View Added projects</a>
+                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="addProject" onclick="viewAdd(this)">View Owned projects</a>
                   <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="viewProject" onclick="viewAdd(this)">View Interested projects</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="header-nightsky.html">Logout</a>
@@ -52,27 +52,21 @@
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">DMBI</a>
-              <a class="nav-item nav-link" href="#">SWS</a>
-              <a class="nav-item nav-link" href="#">AIT</a>
-              <a class="nav-item nav-link" href="#">DS</a>
-              <a class="nav-item nav-link" href="#">SE</a>
+              <a class="nav-item nav-link" href="#">Artificial Intelligence</a>
+              <a class="nav-item nav-link" href="#">Web Development</a>
+              <a class="nav-item nav-link" href="#">Machine Learning</a>
             </div>
             <div class="carousel-item justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">DMBI</a>
-              <a class="nav-item nav-link" href="#">SWS</a>
-              <a class="nav-item nav-link" href="#">AIT</a>
-              <a class="nav-item nav-link" href="#">DS</a>
-              <a class="nav-item nav-link" href="#">SE</a>
+              <a class="nav-item nav-link" href="#">Internet of Things</a>
+              <a class="nav-item nav-link" href="#">Android Development</a>
+              <a class="nav-item nav-link" href="#">VLSI</a>
             </div>
             <div class="carousel-item justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">DMBI</a>
-              <a class="nav-item nav-link" href="#">SWS</a>
-              <a class="nav-item nav-link" href="#">AIT</a>
-              <a class="nav-item nav-link" href="#">DS</a>
-              <a class="nav-item nav-link" href="#">SE</a>
+              <a class="nav-item nav-link" href="#">Computer Networks</a>
+              <a class="nav-item nav-link" href="#">Securities</a>
+              <a class="nav-item nav-link" href="#">Mechanical</a>
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="left:0;right:auto;">
@@ -112,7 +106,7 @@
           <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal" onclick="Interestfunc(this)">
             Interested
           </a>
-          <a href="https://www.linkedin.com/in/varun-rathi-674133139/" class="card-link " >View Profile</a>
+          <a href="#" class="card-link " onclick="newTab('https://www.linkedin.com/in/varun-rathi-674133139/')">View Profile</a>
 
         </div>
         <!-- The Modal for interested-->
@@ -204,8 +198,12 @@
           document.getElementById("myExpressInterestedModalBody").innerHTML="<ol><li><a href='ownerindex.html'>D3</li><li>D4</li></ol>"
         }
       }
+      function newTab(url) {
+        var win=window.open(url,'_blank');
+        win.focus();
+      }
     </script>
-    <script>
+    <!-- <script>
       $(function(){
         $('[data-toggle="tooltip"]').tooltip();
       });
@@ -216,6 +214,6 @@
           }
           $(this).addClass("disabled");
       });
-    </script>
+    </script> -->
   </body>
 </html>

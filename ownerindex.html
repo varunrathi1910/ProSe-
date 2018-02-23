@@ -22,7 +22,7 @@
               <div class="collapse navbar-collapse" id="mainNav">
                 <div class="navbar-nav">
                   <a class="nav-item nav-link active" href="header-nightsky.html">Home</a>
-                  <a class="nav-item nav-link " href="#">About Us</a>
+                  <a class="nav-item nav-link " href="AboutUs.html">About Us</a>
                 </div>
               </div>
               <div class="btn-group" style="right:0;left:auto;">
@@ -31,7 +31,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" style="right:0;left:auto;" >
                   <!-- <a class="dropdown-item" href="#">Action</a> -->
-                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="addProject" onclick="viewAdd(this)">View Added projects</a>
+                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="addProject" onclick="viewAdd(this)">View Owned projects</a>
                   <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="viewProject" onclick="viewAdd(this)">View Interested projects</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="header-nightsky.html">Logout</a>
@@ -53,32 +53,26 @@
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">DMBI</a>
-              <a class="nav-item nav-link" href="#">SWS</a>
-              <a class="nav-item nav-link" href="#">AIT</a>
-              <a class="nav-item nav-link" href="#">DS</a>
-              <a class="nav-item nav-link" href="#">SE</a>
+              <a class="nav-item nav-link" href="#">Artificial Intelligence</a>
+              <a class="nav-item nav-link" href="#">Web Development</a>
+              <a class="nav-item nav-link" href="#">Machine Learning</a>
             </div>
             <div class="carousel-item justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">DMBI</a>
-              <a class="nav-item nav-link" href="#">SWS</a>
-              <a class="nav-item nav-link" href="#">AIT</a>
-              <a class="nav-item nav-link" href="#">DS</a>
-              <a class="nav-item nav-link" href="#">SE</a>
+              <a class="nav-item nav-link" href="#">Internet of Things</a>
+              <a class="nav-item nav-link" href="#">Android Development</a>
+              <a class="nav-item nav-link" href="#">VLSI</a>
             </div>
             <div class="carousel-item justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">DMBI</a>
-              <a class="nav-item nav-link" href="#">SWS</a>
-              <a class="nav-item nav-link" href="#">AIT</a>
-              <a class="nav-item nav-link" href="#">DS</a>
-              <a class="nav-item nav-link" href="#">SE</a>
+              <a class="nav-item nav-link" href="#">Computer Networks</a>
+              <a class="nav-item nav-link" href="#">Securities</a>
+              <a class="nav-item nav-link" href="#">Mechanical</a>
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="left:0;right:auto;">
             <span class="carousel-control-prev-icon bg-info"style="border-radius:50%;" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">Back</span>
           </a>
           <a class="carousel-control-next"  href="#carouselExampleControls" role="button" data-slide="next" style="right:0;left:auto;">
             <span class="carousel-control-next-icon bg-info "style="border-radius:50%;" aria-hidden="true"></span>
@@ -255,11 +249,15 @@
         }
         else {
           document.getElementById("myClosedModalHeader").innerHTML="Owned projects"
-          document.getElementById("myClosedModalBody").innerHTML="<ol><li><a href='https://www.linkedin.com/in/varun-rathi-674133139/'>Varun Rathi</a></li><li>xyz</li></ol>"
+          document.getElementById("myClosedModalBody").innerHTML="<ol><li><a href='' onclick=newTab('https://www.linkedin.com/in/varun-rathi-674133139/')>Varun Rathi</a></li><li>xyz</li></ol>"
         }
       }
+      function newTab(url) {
+        var win=window.open(url,'_blank');
+        win.focus();
+      }
     </script>
-    <script>
+    <!-- <script>
       $(function(){
         $('[data-toggle="tooltip"]').tooltip();
       });
@@ -270,6 +268,7 @@
           }
           $(this).addClass("disabled");
       });
-    </script>
+
+    </script> -->
   </body>
 </html>
