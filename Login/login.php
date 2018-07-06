@@ -9,6 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -24,12 +25,12 @@
                     success:function(response){
                         if(response.trim()=="Login")
                         {
-                          window.location.href = '../Header-Nightsky.html';
+                          window.location.href = '../Header-Nightsky.php';
                         }
                         else
                         {
                           // $('#rsearch').html(response);
-                          alert(typeof(response));                          
+                          alert(response);                          
                         }
                       }
                     });
