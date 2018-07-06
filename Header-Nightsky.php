@@ -17,10 +17,10 @@
 
 <body>
     <?php
-    include('SessionChecker.php');
+    include('includes/SessionChecker.php');
     ?>  
     <?php
-    include('header.php');
+    include('includes/header.php');
     ?>
     <!-- Additons-->
     <div class="row">
