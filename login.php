@@ -1,6 +1,5 @@
 <!-- Integrate this code with the signup page that you are creating. It is Login using AJAX -->
 <!-- The starter template's cdn links do not work for AJAX and jQuery use these ones instead. -->
-<!-- This module is not used. THe code in the main directory is used. -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -26,7 +25,7 @@
                     success:function(response){
                         if(response.trim()=="Login")
                         {
-                          window.location.href = '../Header-Nightsky.php';
+                          window.location.href = 'Header-Nightsky.php';
                         }
                         else
                         {

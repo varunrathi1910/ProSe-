@@ -1,3 +1,35 @@
+<?php
+session_start();
+$_SESSION['choice']=$_GET['choice'];
+// echo $_SESSION['id'];
+$dbhost = 'localhost';
+$dbuser = 'root';
+$dbpass ='';
+$db='prose' ;
+$data = array(); // create a variable to hold the information
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
+$choice = mysqli_real_escape_string($conn,$_SESSION['choice']);
+$username = mysqli_real_escape_string($conn,$_SESSION['username']);
+$fillerstring=str_repeat('s', 1);
+$iter=0;
+if(! $conn ) {
+  die('Could not connect: ' . mysql_error());
+}
+
+$sql = "SELECT * FROM project WHERE pdomain='$choice' and pstatus=1 and powner!='$username'";
+$retval = mysqli_query($conn,$sql );
+if(! $retval) {
+  die('Could not get data: ' . mysqli_error());
+}
+while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
+  $data[] = $row;
+}
+
+// print_r($data);
+?>
+<script type="text/javascript">
+  var javascriptiter=0;
+</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,21 +57,21 @@
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">Artificial Intelligence</a>
-              <a class="nav-item nav-link" href="#">Web Development</a>
-              <a class="nav-item nav-link" href="#">Machine Learning</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=ArtificialIntelligence">Artificial Intelligence</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=WebDevelopment">Web Development</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=MachineLearning">Machine Learning</a>
             </div>
             <div class="carousel-item justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">Internet of Things</a>
-              <a class="nav-item nav-link" href="#">Android Development</a>
-              <a class="nav-item nav-link" href="#">VLSI</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=InternetOfThings">Internet of Things</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=AndroidDevelopment">Android Development</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=VLSI">VLSI</a>
             </div>
             <div class="carousel-item justify-content-md-center">
               <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
-              <a class="nav-item nav-link" href="#">Computer Networks</a>
-              <a class="nav-item nav-link" href="#">Securities</a>
-              <a class="nav-item nav-link" href="#">Mechanical</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=ComputerNetworks">Computer Networks</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=Securities">Securities</a>
+              <a class="nav-item nav-link" href="proxyindex.php?choice=Mechanical">Mechanical</a>
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="left:0;right:auto;">
@@ -57,22 +89,23 @@
 <div class="main-container">
   <div class="row justify-content-md-center py-10">
     <div class="col-lg-1">
-      <a href="index.html" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:300px">Previous</a>
+      <button onclick="IterCountDecreaser()" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">Previous</button>
     </div>
+<!--       <button onclick="IterCountIncreaser()"class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">
+        Next
+      </button>   -->  
     <div class="col-lg-8">
       <div class="card text-muted" >
         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
         <div class="card-block">
-          <h4 class="card-title">Dummy project-1</h4>
-          <p class="card-text">Name of the owner</p>
-          <p class="card-text">Contact number of the owner</p>
-          <p class="card-text">Name of the institute</p>
+          <h4 class="card-title"><b><?php echo $data[$iter]['pname']; ?></b></h4>
+          <p class="card-text">Name of the owner: <b><?php echo $data[$iter]['powner']; ?></b></p>
         </div>
         <ul class="list-group list-group-flush text-center">
-          <li class="list-group-item">Description of the project</li>
-          <li class="list-group-item">People required for the project</li>
-          <li class="list-group-item">Status of the project</li>
-          <li class="list-group-item">Status of the project</li>
+          <div /*style="overflow-x: scroll;max-width: 1000px;"*/><li class="list-group-item">Description of the project:
+            <b><?php echo $data[$iter]['pdescription']; echo $fillerstring ;?></b></li></div>
+          <li class="list-group-item">People required for the project: <b><?php echo $data[$iter]['peoplerequired']; ?></b></li>
+          <li class="list-group-item">Number of people interested: <b><?php echo $data[$iter]['peopleinterested']; ?></b></li>
         </ul>
         <div class="card-block">
           <!-- Button to Open the Modal -->
@@ -127,7 +160,10 @@
     </div>
     <div class="col-lg-1 mx-10">
       <!-- <img src="chevron-right.svg" class="rounded float-left" alt="Responsive image" onclick="myFunctionNext()" style="margin-top:400px"></img> -->
-      <a href="index.html" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:300px">Next</a>
+      <!-- <a href="index.html" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">Next</a> -->
+      <button onclick="IterCountIncreaser()"class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">
+        Next
+      </button>
     </div>
   </div>
 </div>
@@ -188,6 +224,18 @@
           $(this).addClass("disabled");
       });
     </script> -->
+    <script type="text/javascript">
+      function IterCountIncreaser()
+      {
+          javascriptiter++;
+          alert(javascriptiter);
+      }
+      function IterCountDecreaser()
+      {
+          javascriptiter-=1;
+          alert(javascriptiter);
+      }      
+    </script>
 
       </div>
     </div>    
