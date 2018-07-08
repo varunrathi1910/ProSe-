@@ -11,7 +11,7 @@ $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
 $choice = mysqli_real_escape_string($conn,$_SESSION['choice']);
 $username = mysqli_real_escape_string($conn,$_SESSION['username']);
 $fillerstring=str_repeat('s', 1);
-$iter=0;
+$GLOBALS['$iter']=0;
 if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
@@ -39,13 +39,16 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   </head>
 
   <body>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> -->
       <?php
         include('includes/SessionChecker.php');
       ?> 
@@ -90,22 +93,19 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
   <div class="row justify-content-md-center py-10">
     <div class="col-lg-1">
       <button onclick="IterCountDecreaser()" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">Previous</button>
-    </div>
-<!--       <button onclick="IterCountIncreaser()"class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">
-        Next
-      </button>   -->  
+    </div> 
     <div class="col-lg-8">
       <div class="card text-muted" >
         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
         <div class="card-block">
-          <h4 class="card-title"><b><?php echo $data[$iter]['pname']; ?></b></h4>
-          <p class="card-text">Name of the owner: <b><?php echo $data[$iter]['powner']; ?></b></p>
+          <h4   id="pname" class="card-title"><b><?php echo $data[$GLOBALS['$iter']]['pname']; ?></b></h4>
+          <p class="card-text" id="powner">Name of the owner: <b><?php echo $data[$GLOBALS['$iter']]['powner']; ?></b></p>
         </div>
         <ul class="list-group list-group-flush text-center">
-          <div /*style="overflow-x: scroll;max-width: 1000px;"*/><li class="list-group-item">Description of the project:
-            <b><?php echo $data[$iter]['pdescription']; echo $fillerstring ;?></b></li></div>
-          <li class="list-group-item">People required for the project: <b><?php echo $data[$iter]['peoplerequired']; ?></b></li>
-          <li class="list-group-item">Number of people interested: <b><?php echo $data[$iter]['peopleinterested']; ?></b></li>
+          <div id="pdescription"/*style="overflow-x: scroll;max-width: 1000px;"*/><li class="list-group-item">Description of the project:
+            <b><?php echo $data[$GLOBALS['$iter']]['pdescription']; echo $fillerstring ;?></b></li></div>
+          <li class="list-group-item" id="peoplerequired">People required for the project: <b><?php echo $data[$GLOBALS['$iter']]['peoplerequired']; ?></b></li>
+          <li class="list-group-item" id="peopleinterested">Number of people interested: <b><?php echo $data[$GLOBALS['$iter']]['peopleinterested']; ?></b></li>
         </ul>
         <div class="card-block">
           <!-- Button to Open the Modal -->
@@ -212,31 +212,46 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
         win.focus();
       }
     </script>
-    <!-- <script>
-      $(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-
-      $("#modalButton").click(function (event) {
-          if ($(this).hasClass("disabled")) {
-              event.preventDefault();
-          }
-          $(this).addClass("disabled");
-      });
-    </script> -->
-    <script type="text/javascript">
+    <script>
       function IterCountIncreaser()
       {
-          javascriptiter++;
-          alert(javascriptiter);
+        javascriptiter++;
+        alert(javascriptiter);
+        AJAXCaller();
       }
       function IterCountDecreaser()
       {
-          javascriptiter-=1;
-          alert(javascriptiter);
+        javascriptiter--;
+        alert(javascriptiter);
+        AJAXCaller();
       }      
-    </script>
+      function AJAXCaller()
+      {
 
+          $.ajax({
+                  type: 'POST',
+                  url: 'cardvaluechanger.php',
+                  data:'javascriptiter='+javascriptiter,
+                  dataType: 'text',
+                  success:function(data)
+                  {
+                     var array=[];
+                     ar=data.split(',');
+                     var k=0;
+                     for(var i=0;i<ar.length;i++)
+                     {
+                      var str=ar[i].split(",");
+                      array.push(str);
+                     }
+                     $('#pname').html("<h4 class="+"card-title"+"><b>"+array[0]+"</b></h4>");
+                     $('#powner').html("Name of the owner:<b>"+array[1]+"</b>");
+                     $('#pdescription').html("<li class='list-group-item'>Description of the project:<b>"+array[2]+"</b></li>");
+                     $('#peoplerequired').html("People required for the project: <b>"+array[3]+"</b>");
+                     $('#peopleinterested').html("Number of people interested: <b>"+array[4]+"</b>");
+                  }
+               });  
+        }                            
+    </script>
       </div>
     </div>    
   </body>
