@@ -1,3 +1,5 @@
+<!-- For usage of $.ajax() method change the original scripts' jquery version to 2.1.3 . Else it wont work -->
+
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html>

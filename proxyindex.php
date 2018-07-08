@@ -12,11 +12,12 @@ $choice = mysqli_real_escape_string($conn,$_SESSION['choice']);
 $username = mysqli_real_escape_string($conn,$_SESSION['username']);
 $fillerstring=str_repeat('s', 1);
 $GLOBALS['$iter']=0;
+$_SESSION['CountProjects'];
 if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
 
-$sql = "SELECT * FROM project WHERE pdomain='$choice' and pstatus=1 and powner!='$username'";
+$sql = "SELECT * FROM project WHERE pdomain='$choice' and pstatus=1 and powner!='$username' and pid NOT IN(select pid from is_interested WHERE uname='$username')";
 $retval = mysqli_query($conn,$sql );
 if(! $retval) {
   die('Could not get data: ' . mysqli_error());
@@ -24,11 +25,13 @@ if(! $retval) {
 while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
   $data[] = $row;
 }
-
+$pid=$data[$GLOBALS['$iter']]['pid'];
 // print_r($data);
 ?>
 <script type="text/javascript">
   var javascriptiter=0;
+  var interestvar=0;
+  var pid="<?php echo $pid; ?>";
 </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,9 +49,9 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
 
   <body>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-2.1.3.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
       <?php
         include('includes/SessionChecker.php');
       ?> 
@@ -59,7 +62,6 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" alt="Responsive">
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active justify-content-md-center">
-              <!-- <p  style="color:white;">This text is to put the content in the middle of the carousel</p> -->
               <a class="nav-item nav-link" href="proxyindex.php?choice=ArtificialIntelligence">Artificial Intelligence</a>
               <a class="nav-item nav-link" href="proxyindex.php?choice=WebDevelopment">Web Development</a>
               <a class="nav-item nav-link" href="proxyindex.php?choice=MachineLearning">Machine Learning</a>
@@ -109,10 +111,10 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
         </ul>
         <div class="card-block">
           <!-- Button to Open the Modal -->
-          <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal" onclick="Interestfunc(this)">
+          <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal"  onclick="Interestfunc(this)">
             Interested
           </a>
-          <a href="#" class="card-link " onclick="newTab('https://www.linkedin.com/in/varun-rathi-674133139/')">View Profile</a>
+          <a id="linkedin" href="#" class="card-link " onclick="newTab('https://www.linkedin.com/in/varun-rathi-674133139/')">View Profile</a>
 
         </div>
         <!-- The Modal for interested-->
@@ -135,94 +137,29 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
           </div>
         </div>
         <!-- The Modal for  Viewing interested  and added projects-->
-        <div class="modal fade" id ="myExpressInterestedModal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myExpressInterestedModalHeader">Interested projects</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body" id="myExpressInterestedModalBody" >
-                <ol>
-                  <li><a>Dummy project 1</a></li>
-                  <li><a>Dummy project 2</a></li>
-                </ol>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">
-                  close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
     <div class="col-lg-1 mx-10">
-      <!-- <img src="chevron-right.svg" class="rounded float-left" alt="Responsive image" onclick="myFunctionNext()" style="margin-top:400px"></img> -->
-      <!-- <a href="index.html" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">Next</a> -->
       <button onclick="IterCountIncreaser()"class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">
         Next
       </button>
     </div>
   </div>
 </div>
-    <script type="text/javascript">
-      var interestvar=0;
-      function myFunctionNext(){
-        window.location="index.html";
-      }
-      function myFunctionPrevious(){
-        window.location="index.html";
-      }
-      // var id = document.getElementById("modalInterestedBody").innerHTML;
-      function Interestfunc(link){
-        // console.log(id);
-        if(interestvar ==0){
-          document.getElementById("modalInterestedButton").innerHTML='Uninterested';
-          document.getElementById("modalInterestedBody").innerHTML="Cheers!!! Interested"
-          //$('#modalInterestedButton').attr('data-target','#myInterestedModal');
-          interestvar=interestvar+1;
-        }
-        else{
-          document.getElementById("modalInterestedButton").innerHTML='Interested';
-          document.getElementById("modalInterestedBody").innerHTML="Oops!!!Not Interested"
-           //$('#modalInterestedButton').attr('data-target','#myUninterestedModal');
-          interestvar=interestvar-1;
-        }
-      }
-      // var id =document.getElementById().id
-      function viewAdd(link){
-        //console.log(link);
-        var id =document.getElementById(link.id).id;
-        console.log(id);
-        if(id=='viewProject')
-        {
-          //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
-          document.getElementById("myExpressInterestedModalHeader").innerHTML="Interested projects"
-          document.getElementById("myExpressInterestedModalBody").innerHTML="<ol><li>D1</li><li>D2</li></ol>"
-        }
-        else {
-          document.getElementById("myExpressInterestedModalHeader").innerHTML="Owned projects"
-          document.getElementById("myExpressInterestedModalBody").innerHTML="<ol><li><a href='ownerindex.html'>D3</li><li>D4</li></ol>"
-        }
-      }
-      function newTab(url) {
-        var win=window.open(url,'_blank');
-        win.focus();
-      }
-    </script>
+    <!-- The below script changes the value when the next and previous button are clicked -->
     <script>
       function IterCountIncreaser()
       {
-        javascriptiter++;
-        alert(javascriptiter);
+          javascriptiter++;
+
+        // alert(javascriptiter);
         AJAXCaller();
       }
       function IterCountDecreaser()
       {
         javascriptiter--;
-        alert(javascriptiter);
+        // alert(javascriptiter);
         AJAXCaller();
       }      
       function AJAXCaller()
@@ -235,6 +172,7 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                   dataType: 'text',
                   success:function(data)
                   {
+                     // alert(data);
                      var array=[];
                      ar=data.split(',');
                      var k=0;
@@ -243,14 +181,65 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
                       var str=ar[i].split(",");
                       array.push(str);
                      }
+                     pid=array[6];
+                     // alert("pid="+pid);
                      $('#pname').html("<h4 class="+"card-title"+"><b>"+array[0]+"</b></h4>");
                      $('#powner').html("Name of the owner:<b>"+array[1]+"</b>");
                      $('#pdescription').html("<li class='list-group-item'>Description of the project:<b>"+array[2]+"</b></li>");
                      $('#peoplerequired').html("People required for the project: <b>"+array[3]+"</b>");
                      $('#peopleinterested').html("Number of people interested: <b>"+array[4]+"</b>");
+                     $('#linkedin').html("<a href='#' class='card-link' onclick='newTab('"+array[5]+"')'>View Profile</a>");
+                  }
+
+               }); 
+        }                            
+    </script>
+    <?php
+      $username=$_SESSION['username'];
+    ?>
+    <!-- ################################### -->
+    <!-- Script to change the modal -->
+    <script type="text/javascript">
+      var username="<?php echo $username ;?>";
+      function Interestfunc(link){
+        if(interestvar ==0){
+          $.ajax({
+                  type: 'POST',
+                  url: 'interestuninterest.php',
+                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  dataType: 'text',
+                  success:function(data)
+                  {
+                    document.getElementById("modalInterestedButton").innerHTML='Uninterested';
+                    document.getElementById("modalInterestedBody").innerHTML="Cheers!!! Interested";
+                    interestvar=interestvar+1;
+                  }
+               });
+
+
+        }
+        else{
+          $.ajax({
+                  type: 'POST',
+                  url: 'interestuninterest.php',
+                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  dataType: 'text',
+                  success:function(data)
+                  {
+                    document.getElementById("modalInterestedButton").innerHTML='Interested';
+                    document.getElementById("modalInterestedBody").innerHTML="Oops!!!Not Interested"
+                    interestvar=interestvar-1;
                   }
                });  
-        }                            
+
+        }
+      }
+      // var id =document.getElementById().id
+
+      function newTab(url) {
+        var win=window.open(url,'_blank');
+        win.focus();
+      }
     </script>
       </div>
     </div>    
