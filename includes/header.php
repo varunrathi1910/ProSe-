@@ -19,8 +19,8 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-menu-toggle-md" style="right:0;left:auto;" >
                   <!-- <a class="dropdown-item" href="#">Action</a> -->
-                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="addProject" onclick="viewAdd(this)">View Owned projects</a>
-                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="viewProject" onclick="viewAdd(this)">View Interested projects</a>
+                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="ownProject" value="own" onclick="viewAdd(this)">View Owned projects</a>
+                  <a class="dropdown-item" href="#myExpressInterestedModal" data-toggle="modal" data-target="#myExpressInterestedModal" id="viewProject" value="Interested" onclick="viewAdd(this)">View Interested projects</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="logout.php">Logout</a>
                 </ul>
@@ -40,7 +40,7 @@
                 <h4 class="modal-title" id="myExpressInterestedModalHeader" style="color: black;">Interested projects</h4>
                 <button type="button" class="close" data-dismiss="modal" style="color: black;">&times;</button>
               </div>
-              <div class="modal-body" id="myExpressInterestedModalBody">
+              <div class="modal-body" id="myExpressInterestedModalBody" style="color: black;">
                 <ol>
                   <li><a>Dummy project 1</a></li>
                   <li><a>Dummy project 2</a></li>
@@ -59,16 +59,70 @@
         function viewAdd(link){
         //console.log(link);
           var id =document.getElementById(link.id).id;
-          console.log(id);
+          // console.log(document.getElementById(link.id).elem.value);
           if(id=='viewProject')
           {
+            $.ajax({
+              type:"POST",
+              url:"includes/interestedadded.php",
+              data:"choice="+link.id,
+              success:function(data){
+                // alert(data);
+                var array=[];
+                ar=data.split(',');
+                var k=0;
+                for (var i=0;i<ar.length;i++)
+                {
+                  var str=ar[i].split(",");
+                  array.push(str);
+                }
+                var i=0;
+                // alert(array[1]);
+                // alert(array[2]);
+                // $(#idvalue).html is not working here....
+                var printstring="";
+                for(i=1;i<array.length;i++)
+                {
+                  printstring+="<li><a href='interestedindex.php?choice="+array[i]+"'>"+array[i]+"</li>" 
+                }
+                document.getElementById("myExpressInterestedModalHeader").innerHTML="Interested projects"
+                document.getElementById("myExpressInterestedModalBody").innerHTML="<ol>"+printstring+"</ol>"
+                                
+              }
+            });
             //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
-            document.getElementById("myExpressInterestedModalHeader").innerHTML="Interested projects"
-            document.getElementById("myExpressInterestedModalBody").innerHTML="<ol><li><a href='ownerindex.html'>D1</li><li>D2</li></ol>"
           }
-          else {
-            document.getElementById("myExpressInterestedModalHeader").innerHTML="Owned projects"
-            document.getElementById("myExpressInterestedModalBody").innerHTML="<ol><li><a href='ownerindex.html'>D3</li><li>D4</li></ol>"
+          else
+          {
+            $.ajax({
+              type:"POST",
+              url:"includes/interestedadded.php",
+              data:"choice="+link.id,
+              success:function(data){
+                // alert(data);
+                var array=[];
+                ar=data.split(',');
+                var k=0;
+                for (var i=0;i<ar.length;i++)
+                {
+                  var str=ar[i].split(",");
+                  array.push(str);
+                }
+                var i=0;
+                // alert(array[1]);
+                // alert(array[2]);
+                // $(#idvalue).html is not working here....
+                var printstring="";
+                for(i=1;i<array.length;i++)
+                {
+                  printstring+="<li><a href="+"ownerindex.php?choice="+array[i]+">"+array[i]+"</li>" 
+                }
+                document.getElementById("myExpressInterestedModalHeader").innerHTML="Owned projects"
+                document.getElementById("myExpressInterestedModalBody").innerHTML="<ol>"+printstring+"</ol>"
+                                
+              }
+            });
+            //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
           }
       }
         </script>

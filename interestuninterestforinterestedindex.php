@@ -12,7 +12,7 @@ $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
 if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
-if($interestvar==0)
+if($interestvar==1)
 {
 	$sql = "INSERT INTO `is_interested`(`pid`, `uname`) VALUES ('$pid','$username')";
 	$sql2="UPDATE project SET peopleinterested=peopleinterested+1 WHERE pid='$pid'";

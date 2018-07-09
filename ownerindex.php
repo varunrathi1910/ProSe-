@@ -1,11 +1,10 @@
 <?php
 session_start();
 $_SESSION['choice']=$_GET['choice'];
-// echo $_SESSION['id'];
 $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass ='';
-$db='prose' ;
+$db='prose';
 $data = array(); // create a variable to hold the information
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
 $choice = mysqli_real_escape_string($conn,$_SESSION['choice']);
@@ -17,7 +16,7 @@ if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
 
-$sql = "SELECT * FROM project WHERE pdomain='$choice' and pstatus=1 and powner!='$username' and pid NOT IN(select pid from is_interested WHERE uname='$username')";
+$sql = "SELECT * FROM project WHERE powner='$username' AND pname='$choice'";
 $retval = mysqli_query($conn,$sql );
 if(! $retval) {
   die('Could not get data: ' . mysqli_error());
@@ -26,6 +25,17 @@ while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
   $data[] = $row;
 }
 $pid=$data[$GLOBALS['$iter']]['pid'];
+$projectStatusval=$data[$GLOBALS['$iter']]['pstatus'];
+$projectStatus="";
+if($projectStatusval==1)
+{
+  $projectStatus="Close project";
+}
+else
+{
+  $projectStatus="Open Project";
+}
+
 // print_r($data);
 ?>
 <script type="text/javascript">
@@ -93,12 +103,8 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
 
 <div class="main-container">
   <div class="row justify-content-md-center py-10">
-    <div class="col-lg-1">
-      <button onclick="IterCountDecreaser()" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">Previous</button>
-    </div> 
     <div class="col-lg-8">
       <div class="card text-muted" >
-        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
         <div class="card-block">
           <h4   id="pname" class="card-title"><b><?php echo $data[$GLOBALS['$iter']]['pname']; ?></b></h4>
           <p class="card-text" id="powner">Name of the owner: <b><?php echo $data[$GLOBALS['$iter']]['powner']; ?></b></p>
@@ -111,22 +117,27 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
         </ul>
         <div class="card-block">
           <!-- Button to Open the Modal -->
-          <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal"  onclick="Interestfunc(this)">
-            Interested
+          <a href="#myClosedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myClosedModal" onclick="openClose(this)">
+            View Interested people
           </a>
-          <a id="linkedin" href="#" class="card-link " onclick="newTab('https://www.linkedin.com/in/varun-rathi-674133139/')">View Profile</a>
+          <a href="#myClosedModal"  id="modalCloseProjectButton" data-toggle="modal" data-target="#myClosedModal" class="card-link " onclick="openClose(this)"><?php echo $projectStatus; ?></a>
 
         </div>
         <!-- The Modal for interested-->
-        <div class="modal fade" id ="myInterestedModal">
+        <div class="modal fade" id ="myClosedModal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Notice</h4>
+                <h4 class="modal-title" id="myClosedModalHeader">Interested projects</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
-              <div class="modal-body">
-                <a id="modalInterestedBody">Interest expressed succesfully</a>
+              <div class="modal-body" id="myClosedModalBody" >
+                <ol>
+                  <li><a>Dummy project 1</a></li>
+                  <li><a>Dummy project 2</a></li>
+                  <li><a>Dummy project 3</a></li>
+                </ol>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">
@@ -136,106 +147,97 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
             </div>
           </div>
         </div>
-        <!-- The Modal for  Viewing interested  and added projects-->
-
       </div>
-    </div>
-    <div class="col-lg-1 mx-10">
-      <button onclick="IterCountIncreaser()"class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">
-        Next
-      </button>
     </div>
   </div>
 </div>
-    <!-- The below script changes the value when the next and previous button are clicked -->
-    <script>
-      function IterCountIncreaser()
-      {
-          javascriptiter++;
-
-        // alert(javascriptiter);
-        AJAXCaller();
-      }
-      function IterCountDecreaser()
-      {
-        javascriptiter--;
-        // alert(javascriptiter);
-        AJAXCaller();
-      }      
-      function AJAXCaller()
-      {
-
-          $.ajax({
-                  type: 'POST',
-                  url: 'cardvaluechanger.php',
-                  data:'javascriptiter='+javascriptiter,
-                  dataType: 'text',
-                  success:function(data)
-                  {
-                     // alert(data);
-                     var array=[];
-                     ar=data.split(',');
-                     var k=0;
-                     for(var i=0;i<ar.length;i++)
-                     {
-                      var str=ar[i].split(",");
-                      array.push(str);
-                     }
-                     pid=array[6];
-                     // alert("pid="+pid);
-                     $('#pname').html("<h4 class="+"card-title"+"><b>"+array[0]+"</b></h4>");
-                     $('#powner').html("Name of the owner:<b>"+array[1]+"</b>");
-                     $('#pdescription').html("<li class='list-group-item'>Description of the project:<b>"+array[2]+"</b></li>");
-                     $('#peoplerequired').html("People required for the project: <b>"+array[3]+"</b>");
-                     $('#peopleinterested').html("Number of people interested: <b>"+array[4]+"</b>");
-                     $('#linkedin').html("<a href='#' class='card-link' onclick='newTab('"+array[5]+"')'>View Profile</a>");
-                  }
-
-               }); 
-        }                            
-    </script>
     <?php
       $username=$_SESSION['username'];
     ?>
     <!-- ################################### -->
     <!-- Script to change the modal -->
     <script type="text/javascript">
-      var username="<?php echo $username ;?>";
-      function Interestfunc(link){
-        if(interestvar ==0){
+      var choice="<?php echo $choice ;?>";
+      // alert(choice);
+      function openClose(link){
+        var id =document.getElementById(link.id).id;
+        console.log(id);
+        if(id=='modalCloseProjectButton')
+        {
+          if(document.getElementById("modalCloseProjectButton").innerHTML=="Close Project")
+          {
+          var id1=document.getElementById("modalCloseProjectButton").innerHTML;
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterest.php',
-                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  url: 'openclose.php',
+                  data:'id='+id1+"&pid="+pid,
                   dataType: 'text',
                   success:function(data)
                   {
-                    document.getElementById("modalInterestedButton").innerHTML='Uninterested';
-                    document.getElementById("modalInterestedBody").innerHTML="Cheers!!! Interested";
-                    interestvar=interestvar+1;
+                    document.getElementById("myClosedModalHeader").innerHTML="Project Status";
+                    document.getElementById("modalCloseProjectButton").innerHTML="Open Project";
+                    document.getElementById("myClosedModalBody").innerHTML="Project closed succesfully";
                   }
                });
+          }
+          else 
+          {
+            
+            $.ajax({
+                    type: 'POST',
+                    url: 'openclose.php',
+                    data:'id='+id+"&pid="+pid,
+                    dataType: 'text',
+                    success:function(data)
+                    {
+                      document.getElementById("myClosedModalHeader").innerHTML="Project Status";
+                      document.getElementById("modalCloseProjectButton").innerHTML="Close Project";
+                      document.getElementById("myClosedModalBody").innerHTML="Project opened succesfully";
+                    }
+                 });
+            
 
+
+          }
+          //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
 
         }
-        else{
-          $.ajax({
-                  type: 'POST',
-                  url: 'interestuninterest.php',
-                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
-                  dataType: 'text',
-                  success:function(data)
-                  {
-                    document.getElementById("modalInterestedButton").innerHTML='Interested';
-                    document.getElementById("modalInterestedBody").innerHTML="Oops!!!Not Interested"
-                    interestvar=interestvar-1;
-                  }
-               });  
+        else {
+            $.ajax({
+              type:"POST",
+              url:"interestedpeople.php",
+              data:"choice="+choice,
+              success:function(data){
+                // alert(data);
+                var array=[];
+                ar=data.split(',');
+                var k=0;
+                for (var i=0;i<ar.length;i++)
+                {
+                  var str=ar[i].split(",");
+                  array.push(str);
+                }
+                var i=0;
+                // // $(#idvalue).html is not working here....
+                var printstring="";
+                var offset=(array.length/2);
+                // alert("alert");
+                // alert("offset="+offset);
+                for(i=0;i<(offset);i++)
+
+                {
+                  // alert(array[offset+i]);
+                  printstring+="<li><a href='"+array[offset+i]+"'>"+array[i]+"</li>" ;
+                }
+                // document.getElementById("myExpressInterestedModalHeader").innerHTML="Owned projects"
+                // document.getElementById("myExpressInterestedModalBody").innerHTML="<ol>"+printstring+"</ol>"
+                document.getElementById("myClosedModalHeader").innerHTML="Interested People"
+                document.getElementById("myClosedModalBody").innerHTML="<ol>"+printstring+"</ol>"                       
+              }
+            });  
 
         }
-      }
-      // var id =document.getElementById().id
-
+        }
       function newTab(url) {
         var win=window.open(url,'_blank');
         win.focus();

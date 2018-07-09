@@ -17,7 +17,7 @@ if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
 
-$sql = "SELECT * FROM project WHERE pdomain='$choice' and pstatus=1 and powner!='$username' and pid NOT IN(select pid from is_interested WHERE uname='$username')";
+$sql = "SELECT * FROM project WHERE pname='$choice' and pid IN(select pid from is_interested WHERE uname='$username')";
 $retval = mysqli_query($conn,$sql );
 if(! $retval) {
   die('Could not get data: ' . mysqli_error());
@@ -112,7 +112,7 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
         <div class="card-block">
           <!-- Button to Open the Modal -->
           <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal"  onclick="Interestfunc(this)">
-            Interested
+            Uninterested
           </a>
           <a id="linkedin" href="#" class="card-link " onclick="newTab('https://www.linkedin.com/in/varun-rathi-674133139/')">View Profile</a>
 
@@ -202,17 +202,17 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
     <script type="text/javascript">
       var username="<?php echo $username ;?>";
       function Interestfunc(link){
-        if(interestvar ==0){
+        if(interestvar ==1){
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterest.php',
+                  url: 'interestuninterestforinterestedindex.php',
                   data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
                   dataType: 'text',
                   success:function(data)
                   {
                     document.getElementById("modalInterestedButton").innerHTML='Uninterested';
                     document.getElementById("modalInterestedBody").innerHTML="Cheers!!! Interested";
-                    interestvar=interestvar+1;
+                    interestvar=interestvar-1;
                   }
                });
 
@@ -221,14 +221,14 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
         else{
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterest.php',
+                  url: 'interestuninterestforinterestedindex.php',
                   data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
                   dataType: 'text',
                   success:function(data)
                   {
                     document.getElementById("modalInterestedButton").innerHTML='Interested';
                     document.getElementById("modalInterestedBody").innerHTML="Oops!!!Not Interested"
-                    interestvar=interestvar-1;
+                    interestvar=interestvar+1;
                   }
                });  
 
