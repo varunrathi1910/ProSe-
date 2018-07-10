@@ -7,7 +7,7 @@ $db='prose' ;
 $interestvar=$_POST['interestvar'];
 $pid=$_POST['pid'];
 $username=$_SESSION['username'];
-echo $interestvar,$pid,$username;
+// echo $interestvar,$pid,$username;
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
 if(! $conn ) {
   die('Could not connect: ' . mysql_error());

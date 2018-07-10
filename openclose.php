@@ -15,8 +15,6 @@ if(! $conn ) {
 if($id=='Close Project')
 {
 	$sql = "UPDATE project SET pstatus=0 WHERE pid='$pid'";
-	// The below commented query is an important functionality but not working.Seek help
-	// -- $sql2 = "UPDATE 'project' SET 'peopleinterested'=1 WHERE pid='$pid";
 }
 else
 {

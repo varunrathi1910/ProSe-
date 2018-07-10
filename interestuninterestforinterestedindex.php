@@ -16,9 +16,6 @@ if($interestvar==1)
 {
 	$sql = "INSERT INTO `is_interested`(`pid`, `uname`) VALUES ('$pid','$username')";
 	$sql2="UPDATE project SET peopleinterested=peopleinterested+1 WHERE pid='$pid'";
-	
-	// The below commented query is an important functionality but not working.Seek help
-	// -- $sql2 = "UPDATE 'project' SET 'peopleinterested'=1 WHERE pid='$pid";
 }
 else
 {

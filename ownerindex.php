@@ -15,7 +15,7 @@ $GLOBALS['$iter']=0;
 if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
-
+ 
 $sql = "SELECT * FROM project WHERE powner='$username' AND pname='$choice'";
 $retval = mysqli_query($conn,$sql );
 if(! $retval) {
@@ -160,17 +160,19 @@ else
       var choice="<?php echo $choice ;?>";
       // alert(choice);
       function openClose(link){
+
         var id =document.getElementById(link.id).id;
         console.log(id);
         if(id=='modalCloseProjectButton')
         {
+          var ajaxcallschoice=3;
           if(document.getElementById("modalCloseProjectButton").innerHTML=="Close Project")
           {
           var id1=document.getElementById("modalCloseProjectButton").innerHTML;
           $.ajax({
                   type: 'POST',
-                  url: 'openclose.php',
-                  data:'id='+id1+"&pid="+pid,
+                  url: 'ajaxcalls.php',
+                  data:'id='+id1+"&pid="+pid+"&ajaxcallschoice="+ajaxcallschoice,
                   dataType: 'text',
                   success:function(data)
                   {
@@ -185,8 +187,8 @@ else
             
             $.ajax({
                     type: 'POST',
-                    url: 'openclose.php',
-                    data:'id='+id+"&pid="+pid,
+                    url: 'ajaxcalls.php',
+                    data:'id='+id1+"&pid="+pid+"&ajaxcallschoice="+ajaxcallschoice,
                     dataType: 'text',
                     success:function(data)
                     {
@@ -199,16 +201,15 @@ else
 
 
           }
-          //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
 
         }
         else {
+            var ajaxcallschoice=4;
             $.ajax({
               type:"POST",
-              url:"interestedpeople.php",
-              data:"choice="+choice,
+              url:"ajaxcalls.php",
+              data:"choice="+choice+"&ajaxcallschoice="+ajaxcallschoice,
               success:function(data){
-                // alert(data);
                 var array=[];
                 ar=data.split(',');
                 var k=0;
@@ -221,16 +222,11 @@ else
                 // // $(#idvalue).html is not working here....
                 var printstring="";
                 var offset=(array.length/2);
-                // alert("alert");
-                // alert("offset="+offset);
-                for(i=0;i<(offset);i++)
+                for(i=0;i<array.length;i+=2)
 
                 {
-                  // alert(array[offset+i]);
-                  printstring+="<li><a href='"+array[offset+i]+"'>"+array[i]+"</li>" ;
+                  printstring+="<li><a href='"+array[i+1]+"'>"+array[i]+"</li>" ;
                 }
-                // document.getElementById("myExpressInterestedModalHeader").innerHTML="Owned projects"
-                // document.getElementById("myExpressInterestedModalBody").innerHTML="<ol>"+printstring+"</ol>"
                 document.getElementById("myClosedModalHeader").innerHTML="Interested People"
                 document.getElementById("myClosedModalBody").innerHTML="<ol>"+printstring+"</ol>"                       
               }

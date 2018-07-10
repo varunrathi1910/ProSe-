@@ -93,9 +93,6 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
 
 <div class="main-container">
   <div class="row justify-content-md-center py-10">
-    <div class="col-lg-1">
-      <button onclick="IterCountDecreaser()" class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">Previous</button>
-    </div> 
     <div class="col-lg-8">
       <div class="card text-muted" >
         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
@@ -140,60 +137,9 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
 
       </div>
     </div>
-    <div class="col-lg-1 mx-10">
-      <button onclick="IterCountIncreaser()"class="btn btn-secondary btn-info" role="button" aria-disabled="true" style="margin-top:200px">
-        Next
-      </button>
-    </div>
+
   </div>
 </div>
-    <!-- The below script changes the value when the next and previous button are clicked -->
-    <script>
-      function IterCountIncreaser()
-      {
-          javascriptiter++;
-
-        // alert(javascriptiter);
-        AJAXCaller();
-      }
-      function IterCountDecreaser()
-      {
-        javascriptiter--;
-        // alert(javascriptiter);
-        AJAXCaller();
-      }      
-      function AJAXCaller()
-      {
-
-          $.ajax({
-                  type: 'POST',
-                  url: 'cardvaluechanger.php',
-                  data:'javascriptiter='+javascriptiter,
-                  dataType: 'text',
-                  success:function(data)
-                  {
-                     // alert(data);
-                     var array=[];
-                     ar=data.split(',');
-                     var k=0;
-                     for(var i=0;i<ar.length;i++)
-                     {
-                      var str=ar[i].split(",");
-                      array.push(str);
-                     }
-                     pid=array[6];
-                     // alert("pid="+pid);
-                     $('#pname').html("<h4 class="+"card-title"+"><b>"+array[0]+"</b></h4>");
-                     $('#powner').html("Name of the owner:<b>"+array[1]+"</b>");
-                     $('#pdescription').html("<li class='list-group-item'>Description of the project:<b>"+array[2]+"</b></li>");
-                     $('#peoplerequired').html("People required for the project: <b>"+array[3]+"</b>");
-                     $('#peopleinterested').html("Number of people interested: <b>"+array[4]+"</b>");
-                     $('#linkedin').html("<a href='#' class='card-link' onclick='newTab('"+array[5]+"')'>View Profile</a>");
-                  }
-
-               }); 
-        }                            
-    </script>
     <?php
       $username=$_SESSION['username'];
     ?>
@@ -202,11 +148,12 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
     <script type="text/javascript">
       var username="<?php echo $username ;?>";
       function Interestfunc(link){
+        var ajaxcallschoice=5;
         if(interestvar ==1){
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterestforinterestedindex.php',
-                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  url: 'ajaxcalls.php',
+                  data:'interestvar='+interestvar+"&pid="+pid+"&ajaxcallschoice="+ajaxcallschoice,
                   dataType: 'text',
                   success:function(data)
                   {
@@ -221,8 +168,8 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
         else{
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterestforinterestedindex.php',
-                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  url: 'ajaxcalls.php',
+                  data:'interestvar='+interestvar+"&pid="+pid+"&ajaxcallschoice="+ajaxcallschoice,
                   dataType: 'text',
                   success:function(data)
                   {
@@ -234,7 +181,6 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
 
         }
       }
-      // var id =document.getElementById().id
 
       function newTab(url) {
         var win=window.open(url,'_blank');

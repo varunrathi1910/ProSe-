@@ -12,7 +12,7 @@ $choice = mysqli_real_escape_string($conn,$_SESSION['choice']);
 $username = mysqli_real_escape_string($conn,$_SESSION['username']);
 $fillerstring=str_repeat('s', 1);
 $GLOBALS['$iter']=0;
-// $_SESSION['CountProjects'];
+$_SESSION['CountProjects']=0;
 if(! $conn ) {
   die('Could not connect: ' . mysql_error());
 }
@@ -23,9 +23,11 @@ if(! $retval) {
   die('Could not get data: ' . mysqli_error());
 }
 while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC)) {
+  $_SESSION['CountProjects']++;
   $data[] = $row;
 }
 $pid=$data[$GLOBALS['$iter']]['pid'];
+$upperlim=$_SESSION['CountProjects'];
 // print_r($data);
 ?>
 <script type="text/javascript">
@@ -111,7 +113,7 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
         </ul>
         <div class="card-block">
           <!-- Button to Open the Modal -->
-          <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal"  onclick="Interestfunc(this)">
+          <a href="#myInterestedModal"  id="modalInterestedButton" class="card-link active" data-toggle="modal" data-target="#myInterestedModal" onclick="Interestfunc(this)">
             Interested
           </a>
           <a id="linkedin" href="#" class="card-link " onclick="newTab('https://www.linkedin.com/in/varun-rathi-674133139/')">View Profile</a>
@@ -148,10 +150,16 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
   </div>
 </div>
     <!-- The below script changes the value when the next and previous button are clicked -->
-    <script>
+    <script>     
+      var upperlim="<?php echo $upperlim ;?>";
       function IterCountIncreaser()
       {
+
           javascriptiter++;
+          if(javascriptiter>=upperlim)
+          {
+            javascriptiter=0;
+          }
 
         // alert(javascriptiter);
         AJAXCaller();
@@ -159,16 +167,21 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
       function IterCountDecreaser()
       {
         javascriptiter--;
+        if(javascriptiter<0)
+        {
+          javascriptiter=upperlim-1;
+        }
         // alert(javascriptiter);
         AJAXCaller();
       }      
       function AJAXCaller()
       {
 
+          var ajaxcallschoice=1;
           $.ajax({
                   type: 'POST',
-                  url: 'cardvaluechanger.php',
-                  data:'javascriptiter='+javascriptiter,
+                  url: 'ajaxcalls.php',
+                  data:'javascriptiter='+javascriptiter+"&ajaxcallschoice="+ajaxcallschoice,
                   dataType: 'text',
                   success:function(data)
                   {
@@ -189,8 +202,9 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
                      $('#peoplerequired').html("People required for the project: <b>"+array[3]+"</b>");
                      $('#peopleinterested').html("Number of people interested: <b>"+array[4]+"</b>");
                      $('#linkedin').html("<a href='#' class='card-link' onclick='newTab('"+array[5]+"')'>View Profile</a>");
+                     interestvar=0;
+                     $('#modalInterestedButton').html("<a href='#myInterestedModal'  id='modalInterestedButton' class='card-link active' data-toggle='modal' data-target='#myInterestedModal' onclick='Interestfunc(this)'>Interested</a>");                  
                   }
-
                }); 
         }                            
     </script>
@@ -202,17 +216,20 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
     <script type="text/javascript">
       var username="<?php echo $username ;?>";
       function Interestfunc(link){
+        ajaxcallschoice=2;
         if(interestvar ==0){
+          
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterest.php',
-                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  url: 'ajaxcalls.php',
+                  data:'interestvar='+interestvar+"&pid="+pid+"&ajaxcallschoice="+ajaxcallschoice,
                   dataType: 'text',
                   success:function(data)
                   {
                     document.getElementById("modalInterestedButton").innerHTML='Uninterested';
                     document.getElementById("modalInterestedBody").innerHTML="Cheers!!! Interested";
                     interestvar=interestvar+1;
+                    upperlim--;
                   }
                });
 
@@ -221,14 +238,15 @@ $pid=$data[$GLOBALS['$iter']]['pid'];
         else{
           $.ajax({
                   type: 'POST',
-                  url: 'interestuninterest.php',
-                  data:'interestvar='+interestvar+"&pid="+pid+"&username="+username,
+                  url: 'ajaxcalls.php',
+                  data:'interestvar='+interestvar+"&pid="+pid+"&ajaxcallschoice="+ajaxcallschoice,
                   dataType: 'text',
                   success:function(data)
                   {
                     document.getElementById("modalInterestedButton").innerHTML='Interested';
                     document.getElementById("modalInterestedBody").innerHTML="Oops!!!Not Interested"
                     interestvar=interestvar-1;
+                    upperlim++;
                   }
                });  
 
