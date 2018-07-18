@@ -11,6 +11,12 @@
                   <!-- <a class="navbar-brand" href="header-nightsky.html" style="max-width:10%;border-radius:50%;"><img src="logo1.jpg" class="img-fluid"></a> -->
                   <a class="nav-item nav-link " href="header-nightsky.php">Home</a>
                   <a class="nav-item nav-link " href="AboutUs.php">About Us</a>
+                  <a>
+                    <form>
+                      <input type="text" size="30" onkeyup="showResult(this.value)" style="background-color: #5bc0d4;align=center;margin-left: 80px;margin-top: 10px;color: white;">
+                      <div id="livesearch"></div>
+                    </form>
+                  </a>
                 </div>
               </div>
               <div class="btn-group" style="right:0;left:auto;">
@@ -56,10 +62,41 @@
         </div>
       <div>
         <script type="text/javascript">
-        function viewAdd(link){
-        //console.log(link);
-          var id =document.getElementById(link.id).id;
-          // console.log(document.getElementById(link.id).elem.value);
+            function showResult(str) {
+              if (str.length==0) { 
+                document.getElementById("livesearch").innerHTML="";
+                document.getElementById("livesearch").style.border="0px";
+                return;
+              }
+              $.ajax({
+                type:"GET",
+                url:"includes/livesearch.php",
+                data:"q="+str,
+                success:function(data)
+                {
+                  // alert(data);
+                  var printstring="";
+                  var array=[];
+                  ar=data.split(',');
+                  var k=0;
+                  for (var i=0;i<ar.length;i++)
+                  {
+                    var str=ar[i].split(",");
+                    array.push(str);
+                  }
+                for(i=0;i<array.length;i++)
+                {
+                  printstring+="<li>"+array[i]+"</li>" ;
+                }
+                  // alert(array[0]+array[1]+array[2]);          
+                  document.getElementById("livesearch").innerHTML="<div style='background-color: #5bc0d4;align=center;margin-left: 80px;margin-top: 10px;'><ul style='list-style-type:none;'>"+printstring+"</ul></div>";
+                  // document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+                  document.getElementById("livesearch").style.color="white";
+                }
+              });
+            }
+            function viewAdd(link){
+            var id =document.getElementById(link.id).id;
           if(id=='viewProject')
           {
             $.ajax({
@@ -67,7 +104,6 @@
               url:"includes/interestedadded.php",
               data:"choice="+link.id,
               success:function(data){
-                // alert(data);
                 var array=[];
                 ar=data.split(',');
                 var k=0;
@@ -77,8 +113,6 @@
                   array.push(str);
                 }
                 var i=0;
-                // alert(array[1]);
-                // alert(array[2]);
                 // $(#idvalue).html is not working here....
                 var printstring="";
                 for(i=1;i<array.length;i++)
@@ -90,7 +124,6 @@
                                 
               }
             });
-            //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
           }
           else
           {
@@ -99,7 +132,6 @@
               url:"includes/interestedadded.php",
               data:"choice="+link.id,
               success:function(data){
-                // alert(data);
                 var array=[];
                 ar=data.split(',');
                 var k=0;
@@ -109,8 +141,6 @@
                   array.push(str);
                 }
                 var i=0;
-                // alert(array[1]);
-                // alert(array[2]);
                 // $(#idvalue).html is not working here....
                 var printstring="";
                 for(i=1;i<array.length;i++)
@@ -122,7 +152,6 @@
                                 
               }
             });
-            //$('#myExpressInterestedModal').attr('data-target','#myUninterestedModal');
           }
       }
         </script>
